@@ -95,3 +95,8 @@ variable "ingress_tls_secret_name" {
   type        = string
   default     = "http-ingress-tls"
 }
+
+variable "domain_name" {
+  description = "The domain name of the project"
+  type        = string
+}

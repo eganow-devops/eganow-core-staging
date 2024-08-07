@@ -12,7 +12,15 @@ terraform {
       source  = "alekc/kubectl"
       version = "~> 2.0.4"
     }
+    digitalocean = {
+      source  = "digitalocean/digitalocean"
+      version = "~> 2.39.2"
+    }
   }
+}
+
+provider "digitalocean" {
+  token = var.do_token
 }
 
 provider "kubernetes" {

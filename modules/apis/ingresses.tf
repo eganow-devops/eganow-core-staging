@@ -23,3 +23,46 @@ data "kubernetes_service_v1" "ingress_lb" {
 ####################################
 # HTTP INGRESS                     #
 ####################################
+resource "kubernetes_ingress_v1" "http_ing" {
+  metadata {
+    name      = "http-ingress"
+    namespace = var.project_namespace
+
+    annotations = {
+      "nginx.ingress.kubernetes.io/ssl-redirect"           = "true"
+      "nginx.ingress.kubernetes.io/force-ssl-redirect"     = "true"
+      "nginx.ingress.kubernetes.io/ssl-passthrough"        = "true"
+      "cert-manager.io/cluster-issuer"                     = var.cluster_issuer_name
+      "kubernetes.io/ingress.class"                        = "nginx"
+      "nginx.ingress.kubernetes.io/enable-cors"            = "true"
+      "nginx.ingress.kubernetes.io/cors-allow-headers"     = "x-ega-user-access-token, Content-Type"
+      "nginx.ingress.kubernetes.io/cors-allow-origin"      = "http://localhost:8080"
+      "nginx.ingress.kubernetes.io/cors-allow-credentials" = "true"
+    }
+  }
+
+  spec {
+    tls {
+      hosts = ["*.${var.domain_name}"]
+      secret_name = var.ingress_tls_secret_name
+    }
+
+    rule {
+      host = "${digitalocean_record.eganow_merchant.name}.${var.domain_name}"
+      http {
+        path {
+          path      = "/"
+          path_type = "Prefix"
+          backend {
+            service {
+              name = kubernetes_service_v1.eganow_core_merchant.metadata.0.name
+              port {
+                name = kubernetes_service_v1.eganow_core_merchant.spec.0.port.0.name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

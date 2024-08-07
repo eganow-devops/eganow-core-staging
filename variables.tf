@@ -58,3 +58,8 @@ variable "onepassword_connect_host" {
   type        = string
   description = "The host of the 1Password Connect service"
 }
+
+variable "domain_name" {
+  description = "The domain name for the project"
+  type        = string
+}

@@ -27,4 +27,5 @@ module "apis" {
   onepassword_vault_db_uuid = var.onepassword_vault_db_uuid
   onepassword_vault_uuid    = var.onepassword_vault_uuid
   dockerconfigjson          = var.dockerconfigjson
+  domain_name               = var.domain_name
 }
