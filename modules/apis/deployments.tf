@@ -96,3 +96,52 @@ resource "kubernetes_deployment_v1" "eganow_core_merchant" {
     }
   }
 }
+
+resource "kubernetes_deployment_v1" "payment_gateway" {
+  metadata {
+    name      = "payment-gateway"
+    namespace = var.project_namespace
+  }
+
+  spec {
+    replicas = var.min_pod_replicas
+
+    selector {
+      match_labels = {
+        app = "payment-gateway"
+      }
+    }
+
+    template {
+      metadata {
+        labels = {
+          app = "payment-gateway"
+        }
+      }
+
+      spec {
+        image_pull_secrets {
+          name = kubernetes_secret_v1.docker_regcred.metadata.0.name
+        }
+        container {
+          image             = "eganowdevops/eganow-mobile-app-core-api:latest" #Image to be changed
+          name              = "payment-gateway"
+          image_pull_policy = "Always"
+
+          port {
+            container_port = 80
+            name           = "grpc"
+          }
+        }
+      }
+    }
+
+    strategy {
+      type = "RollingUpdate"
+      rolling_update {
+        max_surge       = "25%"
+        max_unavailable = "25%"
+      }
+    }
+  }
+}

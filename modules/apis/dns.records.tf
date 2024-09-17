@@ -8,3 +8,9 @@ resource "digitalocean_record" "eganow_merchant" {
   name   = "merchant"
   value  = data.kubernetes_service_v1.ingress_lb.status.0.load_balancer.0.ingress.0.ip
 }
+resource "digitalocean_record" "payment_gateway" {
+  domain = digitalocean_domain.core.id
+  name   = "gateway"
+  type   = "A"
+  value  = data.kubernetes_service_v1.ingress_lb.status.0.load_balancer.0.ingress.0.ip
+}

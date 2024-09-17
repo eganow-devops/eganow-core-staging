@@ -90,13 +90,36 @@ variable "ingress_namespace" {
   default     = "ns-cores-ingress"
 }
 
+variable "domain_name" {
+  description = "The domain name of the project"
+  type        = string
+}
+variable "min_pod_replicas" {
+  description = "The minimum number of replicas for the deployment"
+  type        = number
+  default     = 1
+}
+
+variable "max_pod_replicas" {
+  description = "The maximum number of replicas for the deployment"
+  type        = number
+  default     = 3
+}
+
 variable "ingress_tls_secret_name" {
   description = "The name of the secret that contains the TLS certificate"
   type        = string
   default     = "http-ingress-tls"
 }
 
-variable "domain_name" {
-  description = "The domain name of the project"
+variable "http_ingress_tls_secret_name" {
+  description = "The name of the secret that contains the TLS certificate"
   type        = string
+  default     = "http-ingress-tls"
+}
+
+variable "grpc_ingress_tls_secret_name" {
+  description = "The name of the secret that contains the TLS certificate"
+  type        = string
+  default     = "grpc-ingress-tls"
 }
