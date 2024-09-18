@@ -59,14 +59,14 @@ resource "kubernetes_deployment_v1" "eganow_core_merchant" {
 
           env {
             name  = "OP_CONNECT_HOST"
-            value = var.onepassword_connect_host
+            value = var.onepassword_token
           }
 
           env {
             name = "OP_CONNECT_TOKEN"
             value_from {
               secret_key_ref {
-                name = kubernetes_secret_v1.onepassword_key_vault.metadata.0.name
+                name = kubernetes_secret_v1.onepassword_connect.metadata.0.name
                 key  = "op_token"
               }
             }
@@ -76,7 +76,7 @@ resource "kubernetes_deployment_v1" "eganow_core_merchant" {
             name = "OP_VAULT"
             value_from {
               secret_key_ref {
-                name = kubernetes_secret_v1.onepassword_key_vault.metadata.0.name
+                name = kubernetes_secret_v1.onepassword_connect.metadata.0.name
                 key  = "op_vault"
               }
             }
@@ -86,7 +86,7 @@ resource "kubernetes_deployment_v1" "eganow_core_merchant" {
             name = "DB_VAULT"
             value_from {
               secret_key_ref {
-                name = kubernetes_secret_v1.onepassword_key_vault.metadata.0.name
+                name = kubernetes_secret_v1.onepassword_connect.metadata.0.name
                 key  = "op_db_vault"
               }
             }
@@ -124,7 +124,7 @@ resource "kubernetes_deployment_v1" "payment_gateway" {
           name = kubernetes_secret_v1.docker_regcred.metadata.0.name
         }
         container {
-          image             = "eganowdevops/eganow-mobile-app-core-api:latest" #Image to be changed
+          image             = "eganowdevops/uat-eganow-mobile-app-core-api:latest"
           name              = "payment-gateway"
           image_pull_policy = "Always"
 

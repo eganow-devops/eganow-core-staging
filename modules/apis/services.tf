@@ -34,3 +34,9 @@ resource "kubernetes_service_v1" "payment_gateway" {
     }
   }
 }
+data "kubernetes_service_v1" "onepassword" {
+  metadata {
+    name      = helm_release.onepassword.name
+    namespace = var.project_namespace
+  }
+}

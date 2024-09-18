@@ -9,3 +9,8 @@ variable "nginx_ingress_version" {
   type        = string
   default     = "4.11.1"
 }
+variable "onepassword_connect_version" {
+  description = "The version of the 1Password Connect chart"
+  type        = string
+  default     = "1.15.1"
+}

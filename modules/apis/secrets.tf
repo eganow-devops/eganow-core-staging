@@ -9,16 +9,15 @@ resource "kubernetes_secret_v1" "do_dns_token" {
   }
 }
 
-resource "kubernetes_secret_v1" "onepassword_key_vault" {
+resource "kubernetes_secret_v1" "onepassword_connect" {
   metadata {
-    name      = "onepassword-key-vault"
+    name      = "onepassword-connect"
     namespace = var.project_namespace
   }
 
   data = {
-    "op_token"    = var.onepassword_auth_jwt
-    "op_vault"    = var.onepassword_vault_uuid
-    "op_db_vault" = var.onepassword_vault_db_uuid
+    "onepassword-credentials" : base64encode(jsonencode(var.onepassword_credentials_json))
+    token = var.onepassword_token
   }
 }
 

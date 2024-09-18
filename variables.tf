@@ -12,9 +12,7 @@ variable "cluster_issuer_email" {
   description = "The email of the cluster issuer"
   type        = string
 }
-
 variable "dockerconfigjson" {
-  description = "Docker config JSON needed to set up image pull credentials"
   type = object({
     auths = map(object({
       username = string
@@ -23,43 +21,44 @@ variable "dockerconfigjson" {
       auth     = string
     }))
   })
-  sensitive = true
-  default = {
-    auths = {
-      "dummy" = {
-        username = ""
-        password = ""
-        email    = ""
-        auth     = ""
-      }
-    }
-  }
-}
-
-variable "onepassword_auth_jwt" {
-  type        = string
-  description = "The JWT token for 1Password"
+  description = "Docker config JSON"
   sensitive   = true
 }
 
-variable "onepassword_vault_uuid" {
-  type        = string
-  description = "The UUID of the vault in 1Password"
-  sensitive   = true
+variable "onepassword_credentials_json" {
+  description = "The name of the secret that contains the 1password credentials"
+  type = object({
+    verifier = object({
+      salt      = string
+      localHash = string
+    })
+    encCredentials = object({
+      kid  = string
+      enc  = string
+      cty  = string
+      iv   = string
+      data = string
+    })
+    version    = string
+    deviceUuid = string
+    uniqueKey = object({
+      alg = string
+      ext = bool
+      k   = string
+      key_ops = list(string)
+      kty = string
+      kid = string
+    })
+  })
 }
 
-variable "onepassword_vault_db_uuid" {
-  type        = string
-  description = "The UUID of the default database item in 1Password vault"
+variable "onepassword_token" {
+  description = "The token for vault connection"
+  type = string
   sensitive   = true
-}
-
-variable "onepassword_connect_host" {
-  type        = string
-  description = "The host of the 1Password Connect service"
 }
 
 variable "domain_name" {
   description = "The domain name for the project"
-  type        = string
+  default     = "core.egadevapi.com"
 }
