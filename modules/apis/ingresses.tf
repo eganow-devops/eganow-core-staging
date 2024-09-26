@@ -64,6 +64,23 @@ resource "kubernetes_ingress_v1" "http_ing" {
         }
       }
     }
+    rule {
+      host = "${digitalocean_record.eganow_developers.name}.${var.domain_name}"
+      http {
+        path {
+          path      = "/"
+          path_type = "Prefix"
+          backend {
+            service {
+              name = kubernetes_service_v1.eganow_developers.metadata.0.name
+              port {
+                name = kubernetes_service_v1.eganow_developers.spec.0.port.0.name
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
 

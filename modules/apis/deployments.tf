@@ -145,3 +145,57 @@ resource "kubernetes_deployment_v1" "payment_gateway" {
     }
   }
 }
+
+resource "kubernetes_deployment_v1" "eganow_developers" {
+  metadata {
+    name      = "eganow-developers"
+    namespace = var.project_namespace
+    labels = {
+      scope = "eganow-core-dotnet"
+    }
+  }
+
+  spec {
+    replicas = var.min_pod_replicas
+
+    selector {
+      match_labels = {
+        app = "eganow-developers"
+      }
+    }
+
+    template {
+      metadata {
+        labels = {
+          app = "eganow-developers"
+        }
+      }
+
+      spec {
+        image_pull_secrets {
+          name = kubernetes_secret_v1.docker_regcred.metadata.0.name
+        }
+        container {
+          image             = "eganowdevops/uat-eganow-developer-api:latest"
+          name              = "eganow-developers"
+          image_pull_policy = "Always"
+
+          port {
+            container_port = 80
+            name           = "http"
+            protocol = "TCP"
+          }
+        }
+      }
+    }
+
+    strategy {
+      type = "RollingUpdate"
+      rolling_update {
+        max_surge       = "25%"
+        max_unavailable = "25%"
+      }
+    }
+  }
+}
+

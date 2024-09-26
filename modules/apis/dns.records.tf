@@ -20,3 +20,9 @@ resource "digitalocean_record" "onepassword_vault" {
   type   = "A"
   value  = data.kubernetes_service_v1.ingress_lb.status.0.load_balancer.0.ingress.0.ip
 }
+resource "digitalocean_record" "eganow_developers" {
+  domain = digitalocean_domain.core.id
+  name   = "developers"
+  type   = "A"
+  value  = data.kubernetes_service_v1.ingress_lb.status.0.load_balancer.0.ingress.0.ip
+}
