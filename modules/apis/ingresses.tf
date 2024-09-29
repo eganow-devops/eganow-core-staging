@@ -124,5 +124,23 @@ resource "kubernetes_ingress_v1" "grpc_ing" {
         }
       }
     }
+
+    rule {
+      host = "${digitalocean_record.egapay_payout.name}.${var.domain_name}"
+      http {
+        path {
+          path      = "/"
+          path_type = "Prefix"
+          backend {
+            service {
+              name = kubernetes_service_v1.egapay_payout.metadata.0.name
+              port {
+                name = kubernetes_service_v1.egapay_payout.spec.0.port.0.name
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
