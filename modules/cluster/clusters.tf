@@ -8,7 +8,7 @@ resource "vultr_kubernetes" "core_cluster" {
     plan          = "vc2-1c-2gb"
     label         = "vke-nodepool"
     auto_scaler   = true
-    min_nodes     = 1
-    max_nodes     = 3
+    min_nodes     = 3
+    max_nodes     = 5
   }
 }

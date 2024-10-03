@@ -1,4 +1,4 @@
-resource "kubernetes_deployment_v1" "eganow_core_merchant" {
+/*resource "kubernetes_deployment_v1" "eganow_core_merchant" {
   metadata {
     name      = "eganow-core-merchant"
     namespace = var.project_namespace
@@ -95,7 +95,7 @@ resource "kubernetes_deployment_v1" "eganow_core_merchant" {
       }
     }
   }
-}
+}*/
 
 resource "kubernetes_deployment_v1" "payment_gateway" {
   metadata {

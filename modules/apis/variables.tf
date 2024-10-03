@@ -148,6 +148,7 @@ variable "grpc_ingress_tls_secret_name" {
   type        = string
   default     = "grpc-ingress-tls"
 }
+
 variable "insecure_port" {
   description = "The port for insecure service"
   type        = number
@@ -159,6 +160,7 @@ variable "secure_port_name" {
   type        = string
   default     = "https"
 }
+
 variable "onepassword_token" {
   description = "The token for vault connection"
   type = string

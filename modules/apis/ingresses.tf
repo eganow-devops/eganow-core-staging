@@ -25,7 +25,7 @@ data "kubernetes_service_v1" "ingress_lb" {
 ####################################
 resource "kubernetes_ingress_v1" "http_ing" {
   metadata {
-    name      = "http-ingress"
+    name      = "http-ingress-v1"
     namespace = var.project_namespace
 
     annotations = {
@@ -47,23 +47,25 @@ resource "kubernetes_ingress_v1" "http_ing" {
       secret_name = var.ingress_tls_secret_name
     }
 
-    rule {
-      host = "${digitalocean_record.eganow_merchant.name}.${var.domain_name}"
+    // TODO: one-password
+    /*rule {
+      host = "${digitalocean_record.onepassword_vault.name}.${var.domain_name}"
       http {
         path {
           path      = "/"
           path_type = "Prefix"
           backend {
             service {
-              name = kubernetes_service_v1.eganow_core_merchant.metadata.0.name
+              name = data.kubernetes_service_v1.onepassword_connect.metadata.0.name
               port {
-                name = kubernetes_service_v1.eganow_core_merchant.spec.0.port.0.name
+                number = var.insecure_port
               }
             }
           }
         }
       }
-    }
+    }*/
+
     rule {
       host = "${digitalocean_record.egapay_payout.name}.${var.domain_name}"
       http {
@@ -81,6 +83,7 @@ resource "kubernetes_ingress_v1" "http_ing" {
         }
       }
     }
+
     rule {
       host = "${digitalocean_record.eganow_developers.name}.${var.domain_name}"
       http {
@@ -98,6 +101,24 @@ resource "kubernetes_ingress_v1" "http_ing" {
         }
       }
     }
+
+    /*rule {
+      host = "${digitalocean_record.eganow_merchant.name}.${var.domain_name}"
+      http {
+        path {
+          path      = "/api"
+          path_type = "Prefix"
+          backend {
+            service {
+              name = kubernetes_service_v1.eganow_core_merchant.metadata.0.name
+              port {
+                name = kubernetes_service_v1.eganow_core_merchant.spec.0.port.1.name
+              }
+            }
+          }
+        }
+      }
+    }*/
   }
 }
 
@@ -141,5 +162,23 @@ resource "kubernetes_ingress_v1" "grpc_ing" {
         }
       }
     }
+
+    /*rule {
+      host = "${digitalocean_record.eganow_merchant.name}.${var.domain_name}"
+      http {
+        path {
+          path      = "/"
+          path_type = "Prefix"
+          backend {
+            service {
+              name = kubernetes_service_v1.eganow_core_merchant.metadata.0.name
+              port {
+                name = kubernetes_service_v1.eganow_core_merchant.spec.0.port.0.name
+              }
+            }
+          }
+        }
+      }
+    }*/
   }
 }

@@ -1,4 +1,5 @@
-resource "helm_release" "onepassword" {
+// TODO: one-password
+/*resource "helm_release" "onepassword" {
   chart      = "connect"
   name       = "onepassword-connect"
   repository = "https://1password.github.io/connect-helm-charts"
@@ -17,11 +18,6 @@ resource "helm_release" "onepassword" {
     value = "onepassword-credentials"
   }
 
-  #     set {
-  #       name  = "connect.credentials_base64"
-  #       value = kubernetes_secret_v1.onepassword_connect.data.onepassword-credentials
-  #     }
-
   set {
     name  = "operator.create"
     value = "true"
@@ -33,6 +29,11 @@ resource "helm_release" "onepassword" {
   }
 
   set {
+    name  = "operator.token.name"
+    value = kubernetes_secret_v1.onepassword_connect.metadata.0.name
+  }
+
+  set {
     name  = "operator.token.value"
     value = kubernetes_secret_v1.onepassword_connect.data.token
   }
@@ -41,4 +42,4 @@ resource "helm_release" "onepassword" {
     name  = "connect.api.httpPort"
     value = var.insecure_port
   }
-}
+}*/
