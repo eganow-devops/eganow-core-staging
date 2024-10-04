@@ -3,11 +3,6 @@ variable "linode_api_key" {
   sensitive   = true
 }
 
-variable "do_token" {
-  description = "The token for digitalocean account"
-  sensitive   = true
-}
-
 variable "cluster_issuer_email" {
   description = "The email of the cluster issuer"
   type        = string
@@ -54,11 +49,30 @@ variable "onepassword_credentials_json" {
 
 variable "onepassword_token" {
   description = "The token for vault connection"
-  type = string
+  type        = string
   sensitive   = true
 }
 
 variable "domain_name" {
   description = "The domain name for the project"
-  default     = "core.egadevapi.com"
+}
+
+variable "cloudflare_account_id" {
+  description = "The ID for the cloudflare account"
+  type        = string
+}
+
+variable "cloudflare_zone_id" {
+  description = "The ID for the cloudflare zone"
+  type        = string
+}
+
+variable "cloudflare_api_key" {
+  description = "The API key for cloudflare account"
+  type        = string
+}
+
+variable "cloudflare_project_name" {
+  description = "The name of the cloudflare project"
+  type        = string
 }

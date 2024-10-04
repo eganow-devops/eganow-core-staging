@@ -1,4 +1,4 @@
-resource "kubernetes_namespace_v1" "pay_partners_namespace" {
+resource "kubernetes_namespace_v1" "core_namespace" {
   metadata {
     name = var.project_namespace
   }

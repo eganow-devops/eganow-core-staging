@@ -25,15 +25,10 @@ variable "cluster_issuer_private_key_secret_name" {
   default     = "cert-manager-private-key"
 }
 
-variable "do_token" {
-  description = "The token for digitalocean account"
-  sensitive   = true
-}
-
 variable "project_namespace" {
   type        = string
   description = "project default namespace"
-  default     = "ns-eganow-staging"
+  default     = "ns-eganow-core"
 }
 
 # variable "onepassword_auth_jwt" {
@@ -153,4 +148,30 @@ variable "onepassword_token" {
   description = "The token for vault connection"
   type        = string
   sensitive   = true
+}
+
+variable "cloudflare_account_id" {
+  description = "The ID for the cloudflare account"
+  type        = string
+}
+
+variable "cloudflare_zone_id" {
+  description = "The ID for the cloudflare zone"
+  type        = string
+}
+
+variable "cloudflare_api_key" {
+  description = "The API key for cloudflare account"
+  type        = string
+}
+
+variable "cloudflare_project_name" {
+  description = "The name of the cloudflare project"
+  type        = string
+}
+
+variable "cloudflare_dns_ttl" {
+  description = "The TTL of the zone to facilitate DNS records."
+  type        = number
+  default     = 3600
 }

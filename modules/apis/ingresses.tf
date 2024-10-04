@@ -49,7 +49,7 @@ resource "kubernetes_ingress_v1" "http_ing" {
 
     // TODO: one-password
     /*rule {
-      host = "${digitalocean_record.onepassword_vault.name}.${var.domain_name}"
+      host = "${cloudflare_record.onepassword_vault.name}.${var.domain_name}"
       http {
         path {
           path      = "/"
@@ -67,7 +67,7 @@ resource "kubernetes_ingress_v1" "http_ing" {
     }*/
 
     rule {
-      host = "${digitalocean_record.egapay_payout.name}.${var.domain_name}"
+      host = "${cloudflare_record.egapay_payout.name}.${var.domain_name}"
       http {
         path {
           path      = "/"
@@ -85,7 +85,7 @@ resource "kubernetes_ingress_v1" "http_ing" {
     }
 
     rule {
-      host = "${digitalocean_record.eganow_developers.name}.${var.domain_name}"
+      host = "${cloudflare_record.eganow_developers.name}.${var.domain_name}"
       http {
         path {
           path      = "/"
@@ -103,7 +103,7 @@ resource "kubernetes_ingress_v1" "http_ing" {
     }
 
     /*rule {
-      host = "${digitalocean_record.eganow_merchant.name}.${var.domain_name}"
+      host = "${cloudflare_record.eganow_merchant.name}.${var.domain_name}"
       http {
         path {
           path      = "/api"
@@ -146,7 +146,7 @@ resource "kubernetes_ingress_v1" "grpc_ing" {
     }
 
     rule {
-      host = "${digitalocean_record.payment_gateway.name}.${var.domain_name}"
+      host = "${cloudflare_record.payment_gateway.name}.${var.domain_name}"
       http {
         path {
           path      = "/"
@@ -164,7 +164,7 @@ resource "kubernetes_ingress_v1" "grpc_ing" {
     }
 
     /*rule {
-      host = "${digitalocean_record.eganow_merchant.name}.${var.domain_name}"
+      host = "${cloudflare_record.eganow_merchant.name}.${var.domain_name}"
       http {
         path {
           path      = "/"
