@@ -1,25 +1,13 @@
-variable "k8s_ca_certificate" {
-  description = " The ca certificate from the cluster"
+variable "k8s_kubeconfig" {
+  description = " The kubeconfig file from the cluster"
   type        = string
 }
 
-variable "k8s_id" {
-  description = "The id from the cluster"
+variable "k8s_provider_token" {
   type        = string
+  description = "The token used to access k8s cloud provider."
 }
 
-variable "k8s_client_key" {
-  type = string
-}
-
-variable "k8s_client_cert" {
-  type = string
-}
-
-variable "k8s_host" {
-  description = "The host from the k8s cluster"
-  type        = string
-}
 variable "cluster_issuer_email" {
   description = "The email of the cluster issuer"
   type        = string
@@ -163,6 +151,6 @@ variable "secure_port_name" {
 
 variable "onepassword_token" {
   description = "The token for vault connection"
-  type = string
+  type        = string
   sensitive   = true
 }

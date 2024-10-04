@@ -24,26 +24,20 @@ provider "digitalocean" {
 }
 
 provider "kubernetes" {
-  cluster_ca_certificate = var.k8s_ca_certificate
-  client_certificate     = var.k8s_client_cert
-  client_key             = var.k8s_client_key
-  host                   = var.k8s_host
+  config_path = var.k8s_kubeconfig
+  token       = var.k8s_provider_token
 }
 
 provider "kubectl" {
-  cluster_ca_certificate = var.k8s_ca_certificate
-  client_certificate     = var.k8s_client_cert
-  client_key             = var.k8s_client_key
-  host                   = var.k8s_host
-  load_config_file       = false
+  config_path      = var.k8s_kubeconfig
+  token            = var.k8s_provider_token
+  load_config_file = false
 }
 
 provider "helm" {
   kubernetes {
-    cluster_ca_certificate = var.k8s_ca_certificate
-    client_certificate     = var.k8s_client_cert
-    client_key             = var.k8s_client_key
-    host                   = var.k8s_host
+    config_path = var.k8s_kubeconfig
+    token       = var.k8s_provider_token
   }
 }
 

@@ -1,7 +1,7 @@
 variable "cluster_k8s_version" {
   description = "The Kubernetes version for the cluster"
   type        = string
-  default     = "v1.30.0+1"
+  default     = "1.31"
 }
 
 variable "cluster_label" {
@@ -13,7 +13,7 @@ variable "cluster_label" {
 variable "cluster_region" {
   description = "The region for the cluster"
   type        = string
-  default     = "fra"
+  default     = "eu-west"
 }
 
 variable "cluster_tags" {
@@ -41,6 +41,7 @@ variable "bucket_region" {
   default = "eu-central"
 }
 
-variable "vultr_api_key" {
-  type = string
+variable "linode_api_key" {
+  type        = string
+  description = "The token for Linode k8s cluster"
 }

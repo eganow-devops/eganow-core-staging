@@ -1,11 +1,12 @@
 terraform {
   required_providers {
-    vultr = {
-      source  = "vultr/vultr"
+    linode = {
+      source  = "linode/linode"
+      version = "2.29.0"
     }
   }
 }
 
-provider "vultr" {
-  api_key = var.vultr_api_key
+provider "linode" {
+  token = var.linode_api_key
 }

@@ -1,5 +1,5 @@
-variable "vultr_api_key" {
-  description = "The token for vultr cluster"
+variable "linode_api_key" {
+  description = "The token for Linode k8s cluster"
   sensitive   = true
 }
 
