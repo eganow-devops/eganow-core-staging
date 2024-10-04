@@ -1,9 +1,3 @@
-resource "cloudflare_pages_domain" "core" {
-  domain       = var.domain_name
-  project_name = var.cloudflare_project_name
-  account_id   = var.cloudflare_account_id
-}
-
 resource "cloudflare_record" "eganow_merchant" {
   zone_id = var.cloudflare_zone_id
   type    = "A"
