@@ -5,7 +5,7 @@ resource "kubernetes_secret_v1" "cloudflare_dns_token" {
   }
 
   data = {
-    token = var.cloudflare_api_key
+    token = var.cloudflare_global_api_key
   }
 }
 

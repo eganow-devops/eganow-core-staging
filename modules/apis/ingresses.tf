@@ -43,8 +43,8 @@ resource "kubernetes_ingress_v1" "http_ing" {
 
   spec {
     tls {
-      hosts = ["*.${var.domain_name}"]
-      secret_name = var.ingress_tls_secret_name
+      hosts = ["*.core.${var.domain_name}"]
+      secret_name = var.http_ingress_tls_secret_name
     }
 
     // TODO: one-password
@@ -141,7 +141,7 @@ resource "kubernetes_ingress_v1" "grpc_ing" {
 
   spec {
     tls {
-      hosts = ["*.${var.domain_name}"]
+      hosts = ["*.core.${var.domain_name}"]
       secret_name = var.grpc_ingress_tls_secret_name
     }
 

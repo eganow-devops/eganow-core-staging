@@ -72,6 +72,11 @@ variable "cloudflare_api_key" {
   type        = string
 }
 
+variable "cloudflare_global_api_key" {
+  description = "The API key for cloudflare account"
+  type        = string
+}
+
 variable "cloudflare_project_name" {
   description = "The name of the cloudflare project"
   type        = string

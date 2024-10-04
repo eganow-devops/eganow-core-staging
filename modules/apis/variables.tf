@@ -3,11 +3,6 @@ variable "k8s_kubeconfig" {
   type        = string
 }
 
-variable "k8s_provider_token" {
-  type        = string
-  description = "The token used to access k8s cloud provider."
-}
-
 variable "cluster_issuer_email" {
   description = "The email of the cluster issuer"
   type        = string
@@ -114,12 +109,6 @@ variable "max_pod_replicas" {
   default     = 3
 }
 
-variable "ingress_tls_secret_name" {
-  description = "The name of the secret that contains the TLS certificate"
-  type        = string
-  default     = "http-ingress-tls"
-}
-
 variable "http_ingress_tls_secret_name" {
   description = "The name of the secret that contains the TLS certificate"
   type        = string
@@ -161,6 +150,11 @@ variable "cloudflare_zone_id" {
 }
 
 variable "cloudflare_api_key" {
+  description = "The API key for cloudflare account"
+  type        = string
+}
+
+variable "cloudflare_global_api_key" {
   description = "The API key for cloudflare account"
   type        = string
 }

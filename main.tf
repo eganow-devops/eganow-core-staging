@@ -24,9 +24,10 @@ module "apis" {
   onepassword_token            = var.onepassword_token
   onepassword_credentials_json = var.onepassword_credentials_json
 
-  domain_name             = var.domain_name
-  cloudflare_account_id   = var.cloudflare_account_id
-  cloudflare_zone_id      = var.cloudflare_zone_id
-  cloudflare_api_key      = var.cloudflare_api_key
-  cloudflare_project_name = var.cloudflare_project_name
+  domain_name               = var.domain_name
+  cloudflare_account_id     = var.cloudflare_account_id
+  cloudflare_zone_id        = var.cloudflare_zone_id
+  cloudflare_api_key        = var.cloudflare_api_key
+  cloudflare_project_name   = var.cloudflare_project_name
+  cloudflare_global_api_key = var.cloudflare_global_api_key
 }
