@@ -132,6 +132,17 @@ resource "kubernetes_deployment_v1" "payment_gateway" {
             container_port = 80
             name           = "grpc"
           }
+
+          resources {
+            requests = {
+              cpu    = "100m"
+              memory = "128Mi"
+            }
+            limits = {
+              cpu    = "200m"
+              memory = "256Mi"
+            }
+          }
         }
       }
     }
@@ -185,6 +196,17 @@ resource "kubernetes_deployment_v1" "eganow_developers" {
             name           = "http"
             protocol       = "TCP"
           }
+
+          resources {
+            requests = {
+              cpu    = "100m"
+              memory = "128Mi"
+            }
+            limits = {
+              cpu    = "200m"
+              memory = "256Mi"
+            }
+          }
         }
       }
     }
@@ -199,7 +221,7 @@ resource "kubernetes_deployment_v1" "eganow_developers" {
   }
 }
 
-resource "kubernetes_deployment_v1" "egapay_balance_sync" {
+resource "kubernetes_deployment_v1" "egapay_balance_sync_consumer" {
   metadata {
     name      = "eganow-balance-sync"
     namespace = var.project_namespace
@@ -209,7 +231,7 @@ resource "kubernetes_deployment_v1" "egapay_balance_sync" {
   }
 
   spec {
-    replicas = var.min_pod_replicas
+    replicas = 0
 
     selector {
       match_labels = {
@@ -233,11 +255,16 @@ resource "kubernetes_deployment_v1" "egapay_balance_sync" {
           name              = "eganow-balance-sync"
           image_pull_policy = "Always"
 
-          # port {
-          #   container_port = 80
-          #   name           = "http"
-          #   protocol       = "TCP"
-          # }
+          resources {
+            requests = {
+              cpu    = "100m"
+              memory = "128Mi"
+            }
+            limits = {
+              cpu    = "200m"
+              memory = "256Mi"
+            }
+          }
         }
       }
     }
@@ -262,7 +289,7 @@ resource "kubernetes_deployment_v1" "egapay_callback_consumer" {
   }
 
   spec {
-    replicas = var.min_pod_replicas
+    replicas = 0
 
     selector {
       match_labels = {
@@ -286,10 +313,15 @@ resource "kubernetes_deployment_v1" "egapay_callback_consumer" {
           name              = "eganow-callback-consumer"
           image_pull_policy = "Always"
 
-          port {
-            container_port = 80
-            name           = "http"
-            protocol       = "TCP"
+          resources {
+            requests = {
+              cpu    = "100m"
+              memory = "128Mi"
+            }
+            limits = {
+              cpu    = "200m"
+              memory = "256Mi"
+            }
           }
         }
       }
@@ -315,7 +347,7 @@ resource "kubernetes_deployment_v1" "egapay_db_consumer" {
   }
 
   spec {
-    replicas = var.min_pod_replicas
+    replicas = 0
 
     selector {
       match_labels = {
@@ -339,10 +371,15 @@ resource "kubernetes_deployment_v1" "egapay_db_consumer" {
           name              = "eganow-dbconn-consumer"
           image_pull_policy = "Always"
 
-          port {
-            container_port = 80
-            name           = "http"
-            protocol       = "TCP"
+          resources {
+            requests = {
+              cpu    = "100m"
+              memory = "128Mi"
+            }
+            limits = {
+              cpu    = "200m"
+              memory = "256Mi"
+            }
           }
         }
       }
@@ -368,7 +405,7 @@ resource "kubernetes_deployment_v1" "egapay_payout_api" {
   }
 
   spec {
-    replicas = var.min_pod_replicas
+    replicas = 0
 
     selector {
       match_labels = {
@@ -397,6 +434,17 @@ resource "kubernetes_deployment_v1" "egapay_payout_api" {
             name           = "http"
             protocol       = "TCP"
           }
+
+          resources {
+            requests = {
+              cpu    = "100m"
+              memory = "128Mi"
+            }
+            limits = {
+              cpu    = "200m"
+              memory = "256Mi"
+            }
+          }
         }
       }
     }
@@ -421,7 +469,7 @@ resource "kubernetes_deployment_v1" "egapay_payout_accounting_consumer" {
   }
 
   spec {
-    replicas = var.min_pod_replicas
+    replicas = 0
 
     selector {
       match_labels = {
@@ -445,10 +493,15 @@ resource "kubernetes_deployment_v1" "egapay_payout_accounting_consumer" {
           name              = "eganow-payout-accounting-consumer"
           image_pull_policy = "Always"
 
-          port {
-            container_port = 80
-            name           = "http"
-            protocol       = "TCP"
+          resources {
+            requests = {
+              cpu    = "100m"
+              memory = "128Mi"
+            }
+            limits = {
+              cpu    = "200m"
+              memory = "256Mi"
+            }
           }
         }
       }
@@ -474,7 +527,7 @@ resource "kubernetes_deployment_v1" "egapay_pay_partner_mtn_consumer" {
   }
 
   spec {
-    replicas = var.min_pod_replicas
+    replicas = 0
 
     selector {
       match_labels = {
@@ -498,10 +551,15 @@ resource "kubernetes_deployment_v1" "egapay_pay_partner_mtn_consumer" {
           name              = "eganow-paypartner-mtn-consumer"
           image_pull_policy = "Always"
 
-          port {
-            container_port = 80
-            name           = "http"
-            protocol       = "TCP"
+          resources {
+            requests = {
+              cpu    = "100m"
+              memory = "128Mi"
+            }
+            limits = {
+              cpu    = "200m"
+              memory = "256Mi"
+            }
           }
         }
       }
@@ -527,7 +585,7 @@ resource "kubernetes_deployment_v1" "egapay_sender_beneficiary_validation_consum
   }
 
   spec {
-    replicas = var.min_pod_replicas
+    replicas = 0
 
     selector {
       match_labels = {
@@ -551,10 +609,15 @@ resource "kubernetes_deployment_v1" "egapay_sender_beneficiary_validation_consum
           name              = "eganow-sender-beneficiary-validation-consumer"
           image_pull_policy = "Always"
 
-          port {
-            container_port = 80
-            name           = "http"
-            protocol       = "TCP"
+          resources {
+            requests = {
+              cpu    = "100m"
+              memory = "128Mi"
+            }
+            limits = {
+              cpu    = "200m"
+              memory = "256Mi"
+            }
           }
         }
       }
@@ -580,7 +643,7 @@ resource "kubernetes_deployment_v1" "egapay_transaction_storage_consumer" {
   }
 
   spec {
-    replicas = var.min_pod_replicas
+    replicas = 0
 
     selector {
       match_labels = {
@@ -604,10 +667,15 @@ resource "kubernetes_deployment_v1" "egapay_transaction_storage_consumer" {
           name              = "eganow-transaction-storage-consumer"
           image_pull_policy = "Always"
 
-          port {
-            container_port = 80
-            name           = "http"
-            protocol       = "TCP"
+          resources {
+            requests = {
+              cpu    = "100m"
+              memory = "128Mi"
+            }
+            limits = {
+              cpu    = "200m"
+              memory = "256Mi"
+            }
           }
         }
       }
