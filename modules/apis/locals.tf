@@ -1,4 +1,4 @@
 resource "local_file" "kubeconfig" {
-  filename = "${path.module}/kubeconfig.yaml"
+  filename = "${path.module}/eganow-core-staging.yaml"
   content  = var.k8s_kubeconfig
 }

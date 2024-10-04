@@ -231,7 +231,7 @@ resource "kubernetes_deployment_v1" "egapay_balance_sync_consumer" {
   }
 
   spec {
-    replicas = 0
+    replicas = var.min_pod_replicas
 
     selector {
       match_labels = {
@@ -289,7 +289,7 @@ resource "kubernetes_deployment_v1" "egapay_callback_consumer" {
   }
 
   spec {
-    replicas = 0
+    replicas = var.min_pod_replicas
 
     selector {
       match_labels = {
@@ -347,7 +347,7 @@ resource "kubernetes_deployment_v1" "egapay_db_consumer" {
   }
 
   spec {
-    replicas = 0
+    replicas = var.min_pod_replicas
 
     selector {
       match_labels = {
@@ -405,7 +405,7 @@ resource "kubernetes_deployment_v1" "egapay_payout_api" {
   }
 
   spec {
-    replicas = 0
+    replicas = var.min_pod_replicas
 
     selector {
       match_labels = {
@@ -469,7 +469,7 @@ resource "kubernetes_deployment_v1" "egapay_payout_accounting_consumer" {
   }
 
   spec {
-    replicas = 0
+    replicas = var.min_pod_replicas
 
     selector {
       match_labels = {
@@ -527,7 +527,7 @@ resource "kubernetes_deployment_v1" "egapay_pay_partner_mtn_consumer" {
   }
 
   spec {
-    replicas = 0
+    replicas = var.min_pod_replicas
 
     selector {
       match_labels = {
@@ -585,7 +585,7 @@ resource "kubernetes_deployment_v1" "egapay_sender_beneficiary_validation_consum
   }
 
   spec {
-    replicas = 0
+    replicas = var.min_pod_replicas
 
     selector {
       match_labels = {
@@ -643,7 +643,7 @@ resource "kubernetes_deployment_v1" "egapay_transaction_storage_consumer" {
   }
 
   spec {
-    replicas = 0
+    replicas = var.min_pod_replicas
 
     selector {
       match_labels = {
