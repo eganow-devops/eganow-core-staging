@@ -16,6 +16,10 @@ terraform {
       source  = "digitalocean/digitalocean"
       version = "~> 2.39.2"
     }
+    local = {
+      source  = "hashicorp/local"
+      version = "~> 2.5.1"
+    }
   }
 }
 
@@ -24,20 +28,16 @@ provider "digitalocean" {
 }
 
 provider "kubernetes" {
-  config_path = var.k8s_kubeconfig
-  token       = var.k8s_provider_token
+  config_path = local_file.kubeconfig.filename
 }
 
 provider "kubectl" {
-  config_path      = var.k8s_kubeconfig
-  token            = var.k8s_provider_token
-  load_config_file = false
+  config_path = local_file.kubeconfig.filename
 }
 
 provider "helm" {
   kubernetes {
-    config_path = var.k8s_kubeconfig
-    token       = var.k8s_provider_token
+    config_path = local_file.kubeconfig.filename
   }
 }
 
@@ -70,5 +70,4 @@ module "cert_manager" {
   }
 
 }
-
 
