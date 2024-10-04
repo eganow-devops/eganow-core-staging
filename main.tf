@@ -16,7 +16,6 @@ module "cluster" {
 module "apis" {
   source               = "./modules/apis"
   k8s_kubeconfig       = module.cluster.eganow_cluster_kubeconfig
-  k8s_provider_token   = var.linode_api_key
   cluster_issuer_email = var.cluster_issuer_email
 
   dockerconfigjson = var.dockerconfigjson
