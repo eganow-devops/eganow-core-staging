@@ -169,3 +169,9 @@ variable "cloudflare_dns_ttl" {
   type        = number
   default     = 3600
 }
+
+variable "cloudflare_dns_ttl_proxied" {
+  description = "The TTL of the zone to facilitate DNS records."
+  type        = number
+  default     = 1
+}

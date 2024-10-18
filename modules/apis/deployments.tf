@@ -59,7 +59,7 @@
 
           env {
             name  = "OP_CONNECT_HOST"
-            value = var.onepassword_token
+            value = kubernetes_secret_v1.onepassword_connect.data.host
           }
 
           env {
@@ -67,7 +67,7 @@
             value_from {
               secret_key_ref {
                 name = kubernetes_secret_v1.onepassword_connect.metadata.0.name
-                key  = "op_token"
+                key  = "token"
               }
             }
           }
@@ -77,7 +77,7 @@
             value_from {
               secret_key_ref {
                 name = kubernetes_secret_v1.onepassword_connect.metadata.0.name
-                key  = "op_vault"
+                key  = "vault"
               }
             }
           }
@@ -87,7 +87,7 @@
             value_from {
               secret_key_ref {
                 name = kubernetes_secret_v1.onepassword_connect.metadata.0.name
-                key  = "op_db_vault"
+                key  = "merchant_db_vault"
               }
             }
           }
@@ -96,6 +96,59 @@
     }
   }
 }*/
+
+resource "kubernetes_deployment_v1" "eganow_backoffice" {
+  metadata {
+    name      = "eganow-backoffice"
+    namespace = var.project_namespace
+    labels = {
+      scope = "eganow-core-dotnet"
+    }
+  }
+
+  spec {
+    replicas = var.min_pod_replicas
+
+    selector {
+      match_labels = {
+        app = "eganow-backoffice"
+      }
+    }
+
+    template {
+      metadata {
+        labels = {
+          app = "eganow-backoffice"
+        }
+      }
+
+      spec {
+        image_pull_secrets {
+          name = kubernetes_secret_v1.docker_regcred.metadata.0.name
+        }
+        container {
+          image             = "eganowdevops/uat-eganow-back-office-project:latest"
+          name              = "eganow-backoffice"
+          image_pull_policy = "Always"
+
+          port {
+            container_port = 80
+            name           = "http"
+            protocol       = "TCP"
+          }
+        }
+      }
+    }
+
+    strategy {
+      type = "RollingUpdate"
+      rolling_update {
+        max_surge       = "25%"
+        max_unavailable = "25%"
+      }
+    }
+  }
+}
 
 resource "kubernetes_deployment_v1" "payment_gateway" {
   metadata {
@@ -133,16 +186,56 @@ resource "kubernetes_deployment_v1" "payment_gateway" {
             name           = "grpc"
           }
 
-          resources {
-            requests = {
-              cpu    = "100m"
-              memory = "128Mi"
-            }
-            limits = {
-              cpu    = "200m"
-              memory = "256Mi"
-            }
+        }
+      }
+    }
+
+    strategy {
+      type = "RollingUpdate"
+      rolling_update {
+        max_surge       = "25%"
+        max_unavailable = "25%"
+      }
+    }
+  }
+}
+
+resource "kubernetes_deployment_v1" "groups_gateway" {
+  metadata {
+    name      = "groups-gateway"
+    namespace = var.project_namespace
+  }
+
+  spec {
+    replicas = var.min_pod_replicas
+
+    selector {
+      match_labels = {
+        app = "groups-gateway"
+      }
+    }
+
+    template {
+      metadata {
+        labels = {
+          app = "groups-gateway"
+        }
+      }
+
+      spec {
+        image_pull_secrets {
+          name = kubernetes_secret_v1.docker_regcred.metadata.0.name
+        }
+        container {
+          image             = "eganowdevops/uat-eganow-mobile-app-groups-api:latest"
+          name              = "groups-gateway"
+          image_pull_policy = "Always"
+
+          port {
+            container_port = 80
+            name           = "grpc"
           }
+
         }
       }
     }
@@ -197,16 +290,6 @@ resource "kubernetes_deployment_v1" "eganow_developers" {
             protocol       = "TCP"
           }
 
-          resources {
-            requests = {
-              cpu    = "100m"
-              memory = "128Mi"
-            }
-            limits = {
-              cpu    = "200m"
-              memory = "256Mi"
-            }
-          }
         }
       }
     }
@@ -255,16 +338,6 @@ resource "kubernetes_deployment_v1" "egapay_balance_sync_consumer" {
           name              = "eganow-balance-sync"
           image_pull_policy = "Always"
 
-          resources {
-            requests = {
-              cpu    = "100m"
-              memory = "128Mi"
-            }
-            limits = {
-              cpu    = "200m"
-              memory = "256Mi"
-            }
-          }
         }
       }
     }
@@ -313,16 +386,6 @@ resource "kubernetes_deployment_v1" "egapay_callback_consumer" {
           name              = "eganow-callback-consumer"
           image_pull_policy = "Always"
 
-          resources {
-            requests = {
-              cpu    = "100m"
-              memory = "128Mi"
-            }
-            limits = {
-              cpu    = "200m"
-              memory = "256Mi"
-            }
-          }
         }
       }
     }
@@ -371,16 +434,6 @@ resource "kubernetes_deployment_v1" "egapay_db_consumer" {
           name              = "eganow-dbconn-consumer"
           image_pull_policy = "Always"
 
-          resources {
-            requests = {
-              cpu    = "100m"
-              memory = "128Mi"
-            }
-            limits = {
-              cpu    = "200m"
-              memory = "256Mi"
-            }
-          }
         }
       }
     }
@@ -435,16 +488,6 @@ resource "kubernetes_deployment_v1" "egapay_payout_api" {
             protocol       = "TCP"
           }
 
-          resources {
-            requests = {
-              cpu    = "100m"
-              memory = "128Mi"
-            }
-            limits = {
-              cpu    = "200m"
-              memory = "256Mi"
-            }
-          }
         }
       }
     }
@@ -493,16 +536,6 @@ resource "kubernetes_deployment_v1" "egapay_payout_accounting_consumer" {
           name              = "eganow-payout-accounting-consumer"
           image_pull_policy = "Always"
 
-          resources {
-            requests = {
-              cpu    = "100m"
-              memory = "128Mi"
-            }
-            limits = {
-              cpu    = "200m"
-              memory = "256Mi"
-            }
-          }
         }
       }
     }
@@ -551,16 +584,101 @@ resource "kubernetes_deployment_v1" "egapay_pay_partner_mtn_consumer" {
           name              = "eganow-paypartner-mtn-consumer"
           image_pull_policy = "Always"
 
-          resources {
-            requests = {
-              cpu    = "100m"
-              memory = "128Mi"
-            }
-            limits = {
-              cpu    = "200m"
-              memory = "256Mi"
-            }
-          }
+        }
+      }
+    }
+
+    strategy {
+      type = "RollingUpdate"
+      rolling_update {
+        max_surge       = "25%"
+        max_unavailable = "25%"
+      }
+    }
+  }
+}
+
+resource "kubernetes_deployment_v1" "egapay_pay_partner_at_consumer" {
+  metadata {
+    name      = "eganow-paypartner-at-consumer"
+    namespace = var.project_namespace
+    labels = {
+      scope = "eganow-core-dotnet"
+    }
+  }
+
+  spec {
+    replicas = var.min_pod_replicas
+
+    selector {
+      match_labels = {
+        app = "eganow-paypartner-at-consumer"
+      }
+    }
+
+    template {
+      metadata {
+        labels = {
+          app = "eganow-paypartner-at-consumer"
+        }
+      }
+
+      spec {
+        image_pull_secrets {
+          name = kubernetes_secret_v1.docker_regcred.metadata.0.name
+        }
+        container {
+          image             = "eganowdevops/egapay-paypartner-at-consumer:latest"
+          name              = "eganow-paypartner-at-consumer"
+          image_pull_policy = "Always"
+
+        }
+      }
+    }
+
+    strategy {
+      type = "RollingUpdate"
+      rolling_update {
+        max_surge       = "25%"
+        max_unavailable = "25%"
+      }
+    }
+  }
+}
+
+resource "kubernetes_deployment_v1" "egapay_pay_partner_telecel_consumer" {
+  metadata {
+    name      = "eganow-paypartner-telecel-consumer"
+    namespace = var.project_namespace
+    labels = {
+      scope = "eganow-core-dotnet"
+    }
+  }
+
+  spec {
+    replicas = var.min_pod_replicas
+
+    selector {
+      match_labels = {
+        app = "eganow-paypartner-telecel-consumer"
+      }
+    }
+
+    template {
+      metadata {
+        labels = {
+          app = "eganow-paypartner-telecel-consumer"
+        }
+      }
+
+      spec {
+        image_pull_secrets {
+          name = kubernetes_secret_v1.docker_regcred.metadata.0.name
+        }
+        container {
+          image             = "eganowdevops/egapay-paypartner-telecel-consumer:latest"
+          name              = "eganow-paypartner-telecel-consumer"
+          image_pull_policy = "Always"
         }
       }
     }
@@ -608,17 +726,6 @@ resource "kubernetes_deployment_v1" "egapay_sender_beneficiary_validation_consum
           image             = "eganowdevops/egapay-sender-beneficiary-validation-consumer:latest"
           name              = "eganow-sender-beneficiary-validation-consumer"
           image_pull_policy = "Always"
-
-          resources {
-            requests = {
-              cpu    = "100m"
-              memory = "128Mi"
-            }
-            limits = {
-              cpu    = "200m"
-              memory = "256Mi"
-            }
-          }
         }
       }
     }
@@ -667,16 +774,6 @@ resource "kubernetes_deployment_v1" "egapay_transaction_storage_consumer" {
           name              = "eganow-transaction-storage-consumer"
           image_pull_policy = "Always"
 
-          resources {
-            requests = {
-              cpu    = "100m"
-              memory = "128Mi"
-            }
-            limits = {
-              cpu    = "200m"
-              memory = "256Mi"
-            }
-          }
         }
       }
     }

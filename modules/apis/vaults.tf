@@ -1,5 +1,4 @@
-// TODO: one-password
-/*resource "helm_release" "onepassword" {
+resource "helm_release" "onepassword_connect" {
   chart      = "connect"
   name       = "onepassword-connect"
   repository = "https://1password.github.io/connect-helm-charts"
@@ -8,38 +7,18 @@
 
   cleanup_on_fail = true
 
-  set {
-    name  = "connect.credentialsName"
-    value = kubernetes_secret_v1.onepassword_connect.metadata.0.name
-  }
-
-  set {
-    name  = "connect.credentialsKey"
-    value = "onepassword-credentials"
-  }
-
-  set {
-    name  = "operator.create"
-    value = "true"
-  }
-
-  set {
-    name  = "operator.autoRestart"
-    value = "true"
-  }
-
-  set {
-    name  = "operator.token.name"
-    value = kubernetes_secret_v1.onepassword_connect.metadata.0.name
-  }
-
-  set {
-    name  = "operator.token.value"
-    value = kubernetes_secret_v1.onepassword_connect.data.token
-  }
+  # Define the values for the chart
+  values = [
+    <<EOF
+    connect:
+      credentials: "${kubernetes_secret_v1.onepassword_connect.data.onepassword-credentials}"
+    EOF
+  ]
 
   set {
     name  = "connect.api.httpPort"
     value = var.insecure_port
   }
-}*/
+
+  wait = true
+}

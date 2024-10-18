@@ -12,7 +12,7 @@ resource "cloudflare_record" "payment_gateway" {
   name    = "gateway.core"
   type    = "A"
   content = data.kubernetes_service_v1.ingress_lb.status.0.load_balancer.0.ingress.0.ip
-  ttl     = var.cloudflare_dns_ttl
+  ttl     = var.cloudflare_dns_ttl_proxied
   proxied = false
 }
 
@@ -40,5 +40,23 @@ resource "cloudflare_record" "egapay_payout" {
   type    = "A"
   content = data.kubernetes_service_v1.ingress_lb.status.0.load_balancer.0.ingress.0.ip
   ttl     = var.cloudflare_dns_ttl
+  proxied = false
+}
+
+resource "cloudflare_record" "eganow_backoffice" {
+  zone_id = var.cloudflare_zone_id
+  name    = "backoffice.core"
+  type    = "A"
+  content = data.kubernetes_service_v1.ingress_lb.status.0.load_balancer.0.ingress.0.ip
+  ttl     = var.cloudflare_dns_ttl
+  proxied = false
+}
+
+resource "cloudflare_record" "groups_gateway" {
+  zone_id = var.cloudflare_zone_id
+  name    = "groups.core"
+  type    = "A"
+  content = data.kubernetes_service_v1.ingress_lb.status.0.load_balancer.0.ingress.0.ip
+  ttl     = var.cloudflare_dns_ttl_proxied
   proxied = false
 }

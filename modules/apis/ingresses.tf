@@ -47,8 +47,7 @@ resource "kubernetes_ingress_v1" "http_ing" {
       secret_name = var.http_ingress_tls_secret_name
     }
 
-    // TODO: one-password
-    /*rule {
+    rule {
       host = "${cloudflare_record.onepassword_vault.name}.${var.domain_name}"
       http {
         path {
@@ -64,7 +63,25 @@ resource "kubernetes_ingress_v1" "http_ing" {
           }
         }
       }
-    }*/
+    }
+
+    rule {
+      host = "${cloudflare_record.eganow_backoffice.name}.${var.domain_name}"
+      http {
+        path {
+          path      = "/"
+          path_type = "Prefix"
+          backend {
+            service {
+              name = kubernetes_service_v1.eganow_backoffice.metadata.0.name
+              port {
+                name = kubernetes_service_v1.eganow_backoffice.spec.0.port.0.name
+              }
+            }
+          }
+        }
+      }
+    }
 
     rule {
       host = "${cloudflare_record.egapay_payout.name}.${var.domain_name}"
@@ -156,6 +173,42 @@ resource "kubernetes_ingress_v1" "grpc_ing" {
               name = kubernetes_service_v1.payment_gateway.metadata.0.name
               port {
                 name = kubernetes_service_v1.payment_gateway.spec.0.port.0.name
+              }
+            }
+          }
+        }
+      }
+    }
+
+    rule {
+      host = "${cloudflare_record.groups_gateway.name}.${var.domain_name}"
+      http {
+        path {
+          path      = "/"
+          path_type = "Prefix"
+          backend {
+            service {
+              name = kubernetes_service_v1.groups_gateway.metadata.0.name
+              port {
+                name = kubernetes_service_v1.groups_gateway.spec.0.port.0.name
+              }
+            }
+          }
+        }
+      }
+    }
+
+    rule {
+      host = "${cloudflare_record.eganow_backoffice.name}.${var.domain_name}"
+      http {
+        path {
+          path      = "/"
+          path_type = "Prefix"
+          backend {
+            service {
+              name = kubernetes_service_v1.eganow_backoffice.metadata.0.name
+              port {
+                name = kubernetes_service_v1.eganow_backoffice.spec.0.port.0.name
               }
             }
           }

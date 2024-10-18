@@ -41,13 +41,48 @@ resource "kubernetes_service_v1" "payment_gateway" {
   }
 }
 
-// TODO: one-password
-/*data "kubernetes_service_v1" "onepassword_connect" {
+resource "kubernetes_service_v1" "groups_gateway" {
+  metadata {
+    name      = "${kubernetes_deployment_v1.groups_gateway.metadata.0.name}-svc"
+    namespace = var.project_namespace
+  }
+
+  spec {
+    selector = {
+      app = kubernetes_deployment_v1.groups_gateway.spec.0.selector.0.match_labels.app
+    }
+
+    port {
+      name        = "grpc"
+      port        = kubernetes_deployment_v1.groups_gateway.spec.0.template.0.spec.0.container.0.port.0.container_port
+      target_port = kubernetes_deployment_v1.groups_gateway.spec.0.template.0.spec.0.container.0.port.0.container_port
+    }
+  }
+}
+
+data "kubernetes_service_v1" "onepassword_connect" {
   metadata {
     name      = helm_release.onepassword_connect.name
     namespace = var.project_namespace
   }
-}*/
+}
+
+resource "kubernetes_service_v1" "eganow_backoffice" {
+  metadata {
+    name      = "${kubernetes_deployment_v1.eganow_backoffice.metadata.0.name}-svc"
+    namespace = var.project_namespace
+  }
+  spec {
+    selector = {
+      app = kubernetes_deployment_v1.eganow_backoffice.spec.0.selector.0.match_labels.app
+    }
+    port {
+      port        = kubernetes_deployment_v1.eganow_backoffice.spec.0.template.0.spec.0.container.0.port.0.container_port
+      target_port = kubernetes_deployment_v1.eganow_backoffice.spec.0.template.0.spec.0.container.0.port.0.container_port
+      name        = "http"
+    }
+  }
+}
 
 resource "kubernetes_service_v1" "eganow_developers" {
   metadata {
