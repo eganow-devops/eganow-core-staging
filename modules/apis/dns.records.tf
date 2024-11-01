@@ -43,7 +43,7 @@ resource "cloudflare_record" "egapay_payout" {
   proxied = false
 }
 
-resource "cloudflare_record" "egapay_payout" {
+resource "cloudflare_record" "egapay_collection" {
   zone_id = var.cloudflare_zone_id
   name    = "collection.core"
   type    = "A"
@@ -52,7 +52,7 @@ resource "cloudflare_record" "egapay_payout" {
   proxied = false
 }
 
-resource "cloudflare_record" "egapay_payout" {
+resource "cloudflare_record" "egapay_collection_callback_mtn" {
   zone_id = var.cloudflare_zone_id
   name    = "mtn-collection-callback.core"
   type    = "A"
@@ -61,7 +61,7 @@ resource "cloudflare_record" "egapay_payout" {
   proxied = false
 }
 
-resource "cloudflare_record" "egapay_payout" {
+resource "cloudflare_record" "egapay_collection_callback_telecel" {
   zone_id = var.cloudflare_zone_id
   name    = "telecel-collection-callback.core"
   type    = "A"
@@ -70,7 +70,7 @@ resource "cloudflare_record" "egapay_payout" {
   proxied = false
 }
 
-resource "cloudflare_record" "egapay_payout" {
+resource "cloudflare_record" "egapay_collection_callback_at" {
   zone_id = var.cloudflare_zone_id
   name    = "at-collection-callback.core"
   type    = "A"
