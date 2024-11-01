@@ -132,7 +132,7 @@ resource "kubernetes_deployment_v1" "eganow_backoffice" {
           image_pull_policy = "Always"
 
           port {
-            container_port = 80
+            container_port = 8080
             name           = "http"
             protocol       = "TCP"
           }

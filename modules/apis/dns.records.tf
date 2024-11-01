@@ -43,6 +43,42 @@ resource "cloudflare_record" "egapay_payout" {
   proxied = false
 }
 
+resource "cloudflare_record" "egapay_payout" {
+  zone_id = var.cloudflare_zone_id
+  name    = "collection.core"
+  type    = "A"
+  content = data.kubernetes_service_v1.ingress_lb.status.0.load_balancer.0.ingress.0.ip
+  ttl     = var.cloudflare_dns_ttl
+  proxied = false
+}
+
+resource "cloudflare_record" "egapay_payout" {
+  zone_id = var.cloudflare_zone_id
+  name    = "mtn-collection-callback.core"
+  type    = "A"
+  content = data.kubernetes_service_v1.ingress_lb.status.0.load_balancer.0.ingress.0.ip
+  ttl     = var.cloudflare_dns_ttl
+  proxied = false
+}
+
+resource "cloudflare_record" "egapay_payout" {
+  zone_id = var.cloudflare_zone_id
+  name    = "telecel-collection-callback.core"
+  type    = "A"
+  content = data.kubernetes_service_v1.ingress_lb.status.0.load_balancer.0.ingress.0.ip
+  ttl     = var.cloudflare_dns_ttl
+  proxied = false
+}
+
+resource "cloudflare_record" "egapay_payout" {
+  zone_id = var.cloudflare_zone_id
+  name    = "at-collection-callback.core"
+  type    = "A"
+  content = data.kubernetes_service_v1.ingress_lb.status.0.load_balancer.0.ingress.0.ip
+  ttl     = var.cloudflare_dns_ttl
+  proxied = false
+}
+
 resource "cloudflare_record" "eganow_backoffice" {
   zone_id = var.cloudflare_zone_id
   name    = "backoffice.core"

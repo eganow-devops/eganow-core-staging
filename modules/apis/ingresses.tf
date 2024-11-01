@@ -119,6 +119,24 @@ resource "kubernetes_ingress_v1" "http_ing" {
       }
     }
 
+    rule {
+      host = "${cloudflare_record.eganow_backoffice.name}.${var.domain_name}"
+      http {
+        path {
+          path      = "/"
+          path_type = "Prefix"
+          backend {
+            service {
+              name = kubernetes_service_v1.eganow_backoffice.metadata.0.name
+              port {
+                name = kubernetes_service_v1.eganow_backoffice.spec.0.port.0.name
+              }
+            }
+          }
+        }
+      }
+    }
+
     /*rule {
       host = "${cloudflare_record.eganow_merchant.name}.${var.domain_name}"
       http {
@@ -191,24 +209,6 @@ resource "kubernetes_ingress_v1" "grpc_ing" {
               name = kubernetes_service_v1.groups_gateway.metadata.0.name
               port {
                 name = kubernetes_service_v1.groups_gateway.spec.0.port.0.name
-              }
-            }
-          }
-        }
-      }
-    }
-
-    rule {
-      host = "${cloudflare_record.eganow_backoffice.name}.${var.domain_name}"
-      http {
-        path {
-          path      = "/"
-          path_type = "Prefix"
-          backend {
-            service {
-              name = kubernetes_service_v1.eganow_backoffice.metadata.0.name
-              port {
-                name = kubernetes_service_v1.eganow_backoffice.spec.0.port.0.name
               }
             }
           }
